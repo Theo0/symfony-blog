@@ -14,7 +14,11 @@ class BlogController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('BlogBlogBundle:Default:index.html.twig');
+
+        $em = $this->getDoctrine()->getManager();
+        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
+        $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array(), array('published' => 'DESC'), 10);
+        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts, 'cat' => $cats));
     }
 
     /**
@@ -25,6 +29,21 @@ class BlogController extends Controller
      */
     public function postAction($id)
     {
-        return $this->render('BlogBlogBundle:Default:index.html.twig', array('name' => $id));
+        $em = $this->getDoctrine()->getManager();
+        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
+        $post = $em->getRepository('BlogBlogBundle:Post')->findOneBy(array('id' => $id));
+        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post, 'cat' => $cats));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/about", name="blog_about")
+     */
+    public function aboutAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
+        return $this->render('BlogBlogBundle:Default:about.html.twig', array('cat' => $cats));
     }
 }

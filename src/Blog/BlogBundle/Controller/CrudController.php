@@ -2,6 +2,8 @@
 
 namespace Blog\BlogBundle\Controller;
 
+use Blog\BlogBundle\Entity\Post;
+use Blog\BlogBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -15,26 +17,78 @@ class CrudController extends Controller
      */
     public function newAction()
     {
-        return $this->render('BlogBlogBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $post = new Post();
+        $form = $this->createForm(new PostType(), $post);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            // $form->request->get('titre') == $post->getTitre()
+
+            if($form->isValid()) {
+                $post->setPublished(new \DateTime());
+                $post->setSlug(str_replace(' ', '-', strtolower($post->getTitre())));
+                $em->persist($post);
+                $em->flush();
+                return $this->redirect($this->generateUrl('blog_index'));
+            }
+        }
+        return $this->render('BlogBlogBundle:Admin:new.html.twig', array('form' => $form->createView()));
+
+
     }
 
     /**
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @throws \Exception
      * @Route("/admin/edit/{id}", name="blog_admin_edit")
      */
-    public function editAction()
+    public function editAction($id)
     {
-        return $this->render('BlogBlogBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
+        $post = $em->getRepository('BlogBlogBundle:Post')->find($id);
+
+        if (!$post)
+            throw new \Exception();
+
+        $form = $this->createForm(new PostType(), $post);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            // $form->request->get('titre') == $post->getTitre()
+
+            if($form->isValid()) {
+                $post->setSlug(str_replace(' ', '-', strtolower($post->getTitre())));
+                $em->flush();
+                return $this->redirect($this->generateUrl('blog_index'));
+            }
+        }
+        return $this->render('BlogBlogBundle:Admin:edit.html.twig', array('form' => $form->createView(), 'id' => $id));
+
     }
 
     /**
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @throws \Exception
      * @Route("/admin/del/{id}", name="blog_admin_del")
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->render('BlogBlogBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('BlogBlogBundle:Post')->find($id);
+
+        if (!$post)
+            throw new \Exception();
+
+        $em->remove($post);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('blog_index'));
     }
 }
