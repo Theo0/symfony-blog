@@ -26,6 +26,14 @@ class Post
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Veuillez entrer un titre.")
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 150,
+     *     minMessage = "Veuillez écrire un titre plus long",
+     *     maxMessage = "Veuillez écrire un texte plus court"
+     * )
      */
     private $titre;
 
@@ -40,6 +48,8 @@ class Post
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     *
+     * @Assert\NotBlank(message="Veuillez entrer un texte.")
      */
     private $content;
 
@@ -63,12 +73,6 @@ class Post
      * @ORM\ManyToOne(targetEntity="User")
      */
     private $author;
-
-
-
-
-
-
 
 
     /**

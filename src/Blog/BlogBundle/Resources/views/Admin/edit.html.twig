@@ -1,19 +1,27 @@
 {% extends ':default:template.html.twig' %}
 {% block corps %}
     <form method="post" action="{{ path('blog_admin_edit', {'id' : id}) }}">
-        {{ form_errors(form) }}
+        {% if form_errors(form) %}
+            <div class="alert alert-danger">{{ form_errors(form) }}</div>
+        {% endif %}
         <div class="form-group">
-            {{ form_errors(form.titre) }}
+            {% if form_errors(form.titre) %}
+                <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>
+            {% endif %}
             <label>Titre : </label>
             {{ form_widget(form.titre, {attr: {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_errors(form.content) }}
+            {% if form_errors(form.content) %}
+                <div class="alert alert-danger">{{ form_errors(form.content) }}</div>
+            {% endif %}
             <label>Titre : </label>
             {{ form_widget(form.content, {attr: {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_errors(form.cat) }}
+            {% if form_errors(form.cat) %}
+                <div class="alert alert-danger">{{ form_errors(form.cat) }}</div>
+            {% endif %}
             <label>Catégorie : </label>
             {{ form_widget(form.cat, {attr: {'class': 'form-control'}}) }}
         </div>

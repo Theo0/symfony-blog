@@ -3,6 +3,7 @@
 namespace Blog\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Cat
@@ -25,6 +26,14 @@ class Cat
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Veuillez entrer une valeur pour le nom de la catégorie.")
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 150,
+     *     minMessage = "Veuillez écrire un titre plus long",
+     *     maxMessage = "Veuillez écrire un texte plus court"
+     * )
      */
     private $nom;
 
@@ -32,6 +41,8 @@ class Cat
      * @var string
      *
      * @ORM\Column(name="descr", type="text")
+     *
+     * @Assert\NotBlank(message="Veuillez entrer une description de la catégorie.")
      */
     private $descr;
 

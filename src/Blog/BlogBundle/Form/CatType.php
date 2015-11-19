@@ -16,8 +16,12 @@ class CatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('descr')
+            ->add('nom', 'text', array(
+                'required' => true
+            ))
+            ->add('descr', 'textarea', array(
+                'required' => true
+            ))
         ;
     }
 

@@ -1,14 +1,20 @@
 {% extends ':default:template.html.twig' %}
 {% block corps %}
     <form method="post" action="{{ path('blog_admin_new_cat') }}">
-        {{ form_errors(form) }}
+        {% if form_errors(form) %}
+            <div class="alert alert-danger">{{ form_errors(form) }}</div>
+        {% endif %}
         <div class="form-group">
-            {{ form_errors(form.nom) }}
+            {% if form_errors(form.nom) %}
+                <div class="alert alert-danger">{{ form_errors(form.nom) }}</div>
+            {% endif %}
             <label>Nom : </label>
             {{ form_widget(form.nom, {attr: {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_errors(form.descr) }}
+            {% if form_errors(form.descr) %}
+                <div class="alert alert-danger">{{ form_errors(form.descr) }}</div>
+            {% endif %}
             <label>Description : </label>
             {{ form_widget(form.descr, {attr: {'class': 'form-control'}}) }}
         </div>
