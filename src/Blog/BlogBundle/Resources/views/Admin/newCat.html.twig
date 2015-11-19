@@ -1,0 +1,18 @@
+{% extends ':default:template.html.twig' %}
+{% block corps %}
+    <form method="post" action="{{ path('blog_admin_new_cat') }}">
+        {{ form_errors(form) }}
+        <div class="form-group">
+            {{ form_errors(form.nom) }}
+            <label>Nom : </label>
+            {{ form_widget(form.nom, {attr: {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_errors(form.descr) }}
+            <label>Description : </label>
+            {{ form_widget(form.descr, {attr: {'class': 'form-control'}}) }}
+        </div>
+        {{ form_rest(form) }}
+        <button class="btn btn-success">Valider</button>
+    </form>
+{%  endblock %}

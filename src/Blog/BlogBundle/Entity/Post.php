@@ -3,6 +3,7 @@
 namespace Blog\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
@@ -55,6 +56,19 @@ class Post
      * @ORM\ManyToOne(targetEntity="Cat")
      */
     private $cat;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $author;
+
+
+
+
+
+
 
 
     /**
@@ -178,5 +192,25 @@ class Post
     {
         $this->cat = $cat;
     }
+
+    /**
+     * @return User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+
+
+
 }
 

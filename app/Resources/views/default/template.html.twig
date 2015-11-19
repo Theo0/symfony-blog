@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Blog Home - Start Bootstrap Template</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
           integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
           crossorigin="anonymous">
@@ -33,11 +33,17 @@
                 <li>
                     <a href="{{ path('blog_about') }}">A Propos</a>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+            </ul>
+            <ul class="nav navbar-right navbar-nav">
+                {% if app.user %}
+                    <li><a disabled>{{ app.user.username }}</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">Se deconnecter</a></li>
+                {% else %}
+                    <li><a href="{{ path('fos_user_security_login') }}">Se connecter</a></li>
+                {%  endif %}
             </ul>
         </div>
+
     </div>
 </nav>
 <div class="container">
@@ -48,27 +54,18 @@
             {%  endblock %}
         </div>
         <div class="col-md-4">
-            <div class="well">
-                <h4>Recherche</h4>
-                <div class="input-group">
-                    <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                </div>
-
-            </div>
 
             <!-- Blog Categories Well -->
             <div class="well">
-                <h4>Categories</h4>
+                <h4>Categories
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="glyphicon glyphicon-plus" style="font-size: medium; color: #009500" href="{{ path('blog_admin_new_cat') }}"></a>
+                    {% endif %}
+                </h4>
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="list-unstyled">
-                            {% block cats %}
-                            {% endblock %}
+                            {{  render(controller('BlogBlogBundle:Blog:catList')) }}
                         </ul>
                     </div>
 

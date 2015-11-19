@@ -16,9 +16,8 @@ class BlogController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
         $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array(), array('published' => 'DESC'), 10);
-        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts, 'cat' => $cats));
+        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts));
     }
 
     /**
@@ -30,9 +29,8 @@ class BlogController extends Controller
     public function postAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
         $post = $em->getRepository('BlogBlogBundle:Post')->findOneBy(array('id' => $id));
-        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post, 'cat' => $cats));
+        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post));
     }
 
     /**
@@ -45,5 +43,30 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
         return $this->render('BlogBlogBundle:Default:about.html.twig', array('cat' => $cats));
+    }
+
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/cat/{id}", name="post_cat")
+     */
+    public function catAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $myCat = $em->getRepository('BlogBlogBundle:Cat')->find($id);
+        $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array('cat' => $myCat), array('published' => 'DESC'));
+        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/listCat", name="cat_list")
+     */
+    public function catListAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cats = $em->getRepository('BlogBlogBundle:Cat')->findAll();
+        return $this->render('BlogBlogBundle:Default:cat.html.twig', array('cat' => $cats));
     }
 }

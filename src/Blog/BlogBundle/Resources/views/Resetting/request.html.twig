@@ -1,0 +1,23 @@
+{%  extends ':default:fos.html.twig' %}
+
+{% block titre %}
+    <title>Blog - Mot de passe perdu</title>
+{% endblock %}
+
+
+{% block corps %}
+    <h2>Mot de passe oublié</h2>
+    <br />
+    <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+        <div class="form-group">
+            {% if invalid_username is defined %}
+                <div class="alert alert-danger"><p>Utilisateur inconnu</p></div>
+            {% endif %}
+            <label for="username">Nom d'utilisateur : </label>
+            <input class="form-control" type="text" id="username" name="username" required="required" />
+        </div>
+        <div>
+            <button class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+{% endblock %}

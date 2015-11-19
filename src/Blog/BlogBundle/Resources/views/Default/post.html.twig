@@ -15,7 +15,7 @@
 
             <!-- Author -->
             <p class="lead">
-                by <a href="#">Start Bootstrap</a>
+                Par <a disabled>{{ post.author }}</a>
             </p>
 
             <hr>
@@ -37,17 +37,19 @@
             <!-- Blog Comments -->
 
             <!-- Comments Form -->
+            {% if app.user %}
             <div class="well">
-                <h4>Leave a Comment:</h4>
+                <h4>Commenter :</h4>
                 <form role="form">
                     <div class="form-group">
                         <textarea class="form-control" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
             </div>
 
             <hr>
+            {% endif %}
 
             <!-- Posted Comments -->
 
@@ -93,10 +95,4 @@
         </div>
         </div>
     </div>
-{% endblock %}
-{% block cats %}
-    {% for item in cat %}
-        <li><a href="#">{{ item.nom }}</a>
-        </li>
-    {% endfor %}
 {% endblock %}
