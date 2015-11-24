@@ -3,8 +3,10 @@
 namespace Blog\BlogBundle\Controller;
 
 use Blog\BlogBundle\Entity\Cat;
+use Blog\BlogBundle\Entity\Comment;
 use Blog\BlogBundle\Entity\Post;
 use Blog\BlogBundle\Form\CatType;
+use Blog\BlogBundle\Form\CommentType;
 use Blog\BlogBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -118,4 +120,32 @@ class CrudController extends Controller
         }
         return $this->render('BlogBlogBundle:Admin:newCat.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     * @Route("/default/post/{post}", name="blog_new_comment")
+     */
+    public function newCommentAction($post)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $request = $this->get('request');
+      $comment = new Comment();
+      $p = $em->getRepository('BlogBlogBundle:Post')->find($post);
+
+      if (($request->getMethod() == 'POST') && ($request->get('content')!= null)) {
+
+              $comment->setPublished(new \DateTime());
+              $comment->setAuthor($this->getUser());
+              $comment->setContent($request->get('content'));
+              $comment->setPost($p);
+              $em->persist($comment);
+              $em->flush();
+
+      }
+      return $this->redirect($this->generateUrl('blog_post',array('id'=> $post)));
+
+    }
+
+
 }

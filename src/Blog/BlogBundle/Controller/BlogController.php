@@ -30,7 +30,8 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('BlogBlogBundle:Post')->findOneBy(array('id' => $id));
-        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post));
+        $comments = $em->getRepository('BlogBlogBundle:Comment')->findBy(array('post' => $post),array('published' => 'DESC'));
+        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post, 'comments' => $comments));
     }
 
     /**

@@ -15,7 +15,7 @@
             {% if form_errors(form.content) %}
                 <div class="alert alert-danger">{{ form_errors(form.content) }}</div>
             {% endif %}
-            <label>Titre : </label>
+            <label>Description : </label>
             {{ form_widget(form.content, {attr: {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">

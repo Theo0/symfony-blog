@@ -21,12 +21,12 @@
     <p class="lead">
         Par <a disabled>{{ item.author }}</a>
     </p>
-    <p><span class="glyphicon glyphicon-time"></span> {{ item.published|date('Y-m-d') }}</p>
+    <p><span class="glyphicon glyphicon-time"></span> {{ item.published|date('Y-m-d \\à H:i:s') }}</p>
     <hr>
     <img class="img-responsive" src="http://placehold.it/900x300" alt="">
     <hr>
     <p>{{ item.content|slice(0, 230) }}  {% if item.content|length > 230  %}... {% endif %}</p>
-    <a class="btn btn-primary" href="#">Voir l'article <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <a class="btn btn-primary" href="{{ path('blog_post', {'id': item.id}) }}">Voir l'article <span class="glyphicon glyphicon-chevron-right"></span></a>
 
     <hr>
     </div>
