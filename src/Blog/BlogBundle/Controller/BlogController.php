@@ -2,8 +2,11 @@
 
 namespace Blog\BlogBundle\Controller;
 
+use Blog\BlogBundle\Entity\Comment;
+use Blog\BlogBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 
 class BlogController extends Controller
 {
@@ -31,7 +34,9 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('BlogBlogBundle:Post')->findOneBy(array('id' => $id));
         $comments = $em->getRepository('BlogBlogBundle:Comment')->findBy(array('post' => $post),array('published' => 'DESC'));
-        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post, 'comments' => $comments));
+        $comment = new Comment();
+        $form = $this->createForm(new CommentType(), $comment);
+        return $this->render('BlogBlogBundle:Default:post.html.twig', array('post' => $post, 'comments' => $comments, 'form' => $form->createView()));
     }
 
     /**

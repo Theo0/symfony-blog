@@ -1,34 +1,27 @@
 {% extends ':default:template.html.twig' %}
 {% block corps %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-primary" href="{{path('blog_admin_add')}}"><span class="glyphicon glyphicon-plus"></span> Créer un article</a>
+        <a class="btn btn-primary" href="{{path('blog_admin_add')}}"><span class="glyphicon glyphicon-plus"></span> Créer un article</a>
     {% endif %}
-
     {% for item in posts %}
-
-
-    <div class="col-md-12">
-        <h2>
-            <a href="{{ path('blog_post', {'id': item.id}) }}">{{ item.titre }}</a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <p>
-                    <a class="glyphicon glyphicon-pencil" style="font-size: medium; color: #009500" href="{{ path('blog_admin_edit', {'id' : item.id})}}"></a>
-                    <a class="glyphicon glyphicon-remove" style="font-size: medium; color: #880000" href="{{ path('blog_admin_del', {'id' : item.id})}}"></a>
-                </p>
-
-            {% endif %}
-        </h2>
-    <p class="lead">
-        Par <a disabled>{{ item.author }}</a>
-    </p>
-    <p><span class="glyphicon glyphicon-time"></span> {{ item.published|date('Y-m-d \\à H:i:s') }}</p>
-    <hr>
-    <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-    <hr>
-    <p>{{ item.content|slice(0, 230) }}  {% if item.content|length > 230  %}... {% endif %}</p>
-    <a class="btn btn-primary" href="{{ path('blog_post', {'id': item.id}) }}">Voir l'article <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-    <hr>
-    </div>
+        <div class="col-md-12">
+            <h2>
+                <a href="{{ path('blog_post', {'id': item.id}) }}">{{ item.titre }}</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p>
+                        <a class="glyphicon glyphicon-pencil" style="font-size: medium; color: #009500" href="{{ path('blog_admin_edit', {'id' : item.id})}}"></a>
+                        <a class="glyphicon glyphicon-remove" style="font-size: medium; color: #880000" href="{{ path('blog_admin_del', {'id' : item.id})}}"></a>
+                    </p>
+                {% endif %}
+            </h2>
+            <p class="lead">
+                Par <a disabled>{{ item.author }}</a>
+            </p>
+            <p><span class="glyphicon glyphicon-time"></span> {{ item.published|date('Y-m-d \\à H:i:s') }}</p>
+            <hr>
+            <p>{{ item.content|slice(0, 230) }}  {% if item.content|length > 230  %}... {% endif %}</p>
+            <a class="btn btn-primary" href="{{ path('blog_post', {'id': item.id}) }}">Voir l'article <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <hr>
+        </div>
     {% endfor %}
 {% endblock %}

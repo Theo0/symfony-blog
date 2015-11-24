@@ -1,9 +1,9 @@
 {% extends ':default:template.html.twig' %}
 {% block corps %}
     <form method="post" action="{{ path('blog_admin_add') }}">
-    {% if form_errors(form) %}
-        <div class="alert alert-danger">{{ form_errors(form) }}</div>
-    {% endif %}
+        {% if form_errors(form) %}
+            <div class="alert alert-danger">{{ form_errors(form) }}</div>
+        {% endif %}
         <div class="form-group">
             {% if form_errors(form.titre) %}
                 <div class="alert alert-danger">{{ form_errors(form.titre) }}</div>

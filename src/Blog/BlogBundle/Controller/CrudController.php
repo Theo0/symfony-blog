@@ -10,6 +10,8 @@ use Blog\BlogBundle\Form\CommentType;
 use Blog\BlogBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CrudController extends Controller
 {
@@ -22,7 +24,7 @@ class CrudController extends Controller
     public function newAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
+        $request = Request::createFromGlobals();
         $post = new Post();
         $form = $this->createForm(new PostType(), $post);
 
@@ -54,7 +56,7 @@ class CrudController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
+        $request = Request::createFromGlobals();
         $post = $em->getRepository('BlogBlogBundle:Post')->find($id);
 
         if (!$post)
@@ -64,8 +66,6 @@ class CrudController extends Controller
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
-
-            // $form->request->get('titre') == $post->getTitre()
 
             if($form->isValid()) {
                 $post->setSlug(str_replace(' ', '-', strtolower($post->getTitre())));
@@ -105,7 +105,7 @@ class CrudController extends Controller
     public function newCatAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
+        $request = Request::createFromGlobals();
         $cat = new Cat();
         $form = $this->createForm(new CatType(), $cat);
 
@@ -128,24 +128,27 @@ class CrudController extends Controller
      */
     public function newCommentAction($post)
     {
-      $em = $this->getDoctrine()->getManager();
-      $request = $this->get('request');
-      $comment = new Comment();
-      $p = $em->getRepository('BlogBlogBundle:Post')->find($post);
+        $em = $this->getDoctrine()->getManager();
+        $request = Request::createFromGlobals();
+        $comment = new Comment();
+        $form = $this->createForm(new CommentType(), $comment);
+        $p = $em->getRepository('BlogBlogBundle:Post')->find($post);
 
-      if (($request->getMethod() == 'POST') && ($request->get('content')!= null)) {
+        if (!$p)
+            throw new \Exception();
 
-              $comment->setPublished(new \DateTime());
-              $comment->setAuthor($this->getUser());
-              $comment->setContent($request->get('content'));
-              $comment->setPost($p);
-              $em->persist($comment);
-              $em->flush();
+        if (($request->getMethod() == 'POST')) {
+            $form->handleRequest($request);
 
-      }
-      return $this->redirect($this->generateUrl('blog_post',array('id'=> $post)));
+            if ($form->isValid()) {
+                $comment->setPublished(new \DateTime());
+                $comment->setAuthor($this->getUser());
+                $comment->setPost($p);
 
+                $em->persist($comment);
+                $em->flush();
+            }
+        }
+        return $this->redirect($this->generateUrl('blog_post',array('id'=> $post)));
     }
-
-
 }
