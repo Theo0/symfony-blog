@@ -6,8 +6,6 @@ use Blog\BlogBundle\Entity\Comment;
 use Blog\BlogBundle\Form\Type\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-
 
 class BlogController extends Controller
 {
