@@ -1,13 +1,13 @@
 <?php
 
-namespace Blog\BlogBundle\Form;
+namespace Blog\BlogBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CatType extends AbstractType
+class PostType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,12 +16,17 @@ class CatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', 'text', array(
+            ->add('titre', 'text', array(
                 'required' => true
             ))
-            ->add('descr', 'textarea', array(
+            ->add('content', 'textarea', array(
                 'required' => true
             ))
+            ->add('cat', 'entity', array(
+                'property' => 'nom',
+                'class' => 'Blog\BlogBundle\Entity\Cat'
+            ))
+            //->add('file')
         ;
     }
 
@@ -31,7 +36,7 @@ class CatType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Blog\BlogBundle\Entity\Cat'
+            'data_class' => 'Blog\BlogBundle\Entity\Post'
         ));
     }
 
@@ -40,6 +45,6 @@ class CatType extends AbstractType
      */
     public function getName()
     {
-        return 'blog_blogbundle_cat';
+        return 'blog_blogbundle_post';
     }
 }
