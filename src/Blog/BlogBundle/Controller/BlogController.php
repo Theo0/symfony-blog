@@ -3,13 +3,15 @@
 namespace Blog\BlogBundle\Controller;
 
 use Blog\BlogBundle\Entity\Comment;
-use Blog\BlogBundle\Form\CommentType;
+use Blog\BlogBundle\Form\Type\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class BlogController extends Controller
 {
+
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -17,7 +19,6 @@ class BlogController extends Controller
      */
     public function indexAction()
     {
-
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array(), array('published' => 'DESC'), 10);
         return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts));
@@ -26,7 +27,7 @@ class BlogController extends Controller
     /**
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @internal param Request $request
      * @Route("/post/{id}", name="blog_post")
      */
     public function postAction($id)

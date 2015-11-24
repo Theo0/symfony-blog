@@ -5,26 +5,23 @@ namespace Blog\BlogBundle\Controller;
 use Blog\BlogBundle\Entity\Cat;
 use Blog\BlogBundle\Entity\Comment;
 use Blog\BlogBundle\Entity\Post;
-use Blog\BlogBundle\Form\CatType;
-use Blog\BlogBundle\Form\CommentType;
-use Blog\BlogBundle\Form\PostType;
+use Blog\BlogBundle\Form\Type\CatType;
+use Blog\BlogBundle\Form\Type\CommentType;
+use Blog\BlogBundle\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CrudController extends Controller
 {
-
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
+     * @param Request $request
+     * @return Response
      * @Route("/admin/add", name="blog_admin_add")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = Request::createFromGlobals();
         $post = new Post();
         $form = $this->createForm(new PostType(), $post);
 
@@ -48,15 +45,15 @@ class CrudController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      * @Route("/admin/edit/{id}", name="blog_admin_edit")
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = Request::createFromGlobals();
         $post = $em->getRepository('BlogBlogBundle:Post')->find($id);
 
         if (!$post)
@@ -98,14 +95,13 @@ class CrudController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
+     * @param Request $request
      * @Route("/admin/newCat/", name="blog_admin_new_cat")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newCatAction()
+    public function newCatAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = Request::createFromGlobals();
         $cat = new Cat();
         $form = $this->createForm(new CatType(), $cat);
 
@@ -122,14 +118,15 @@ class CrudController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @param $post
+     * @return Response
      * @throws \Exception
      * @Route("/default/post/{post}", name="blog_new_comment")
      */
-    public function newCommentAction($post)
+    public function newCommentAction(Request $request, $post)
     {
         $em = $this->getDoctrine()->getManager();
-        $request = Request::createFromGlobals();
         $comment = new Comment();
         $form = $this->createForm(new CommentType(), $comment);
         $p = $em->getRepository('BlogBlogBundle:Post')->find($post);
