@@ -36,7 +36,7 @@
             </ul>
             <ul class="nav navbar-right navbar-nav">
                 {% if app.user %}
-                    <li><a disabled>{{ app.user.username }}</a></li>
+                    <li><a href="#">{{ app.user.username }}</a></li>
                     <li><a href="{{ path('fos_user_security_logout') }}">Se deconnecter</a></li>
                 {% else %}
                     <li><a href="{{ path('fos_user_security_login') }}">Se connecter</a></li>

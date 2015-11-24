@@ -5,7 +5,7 @@
     {% endif %}
     {% for item in posts %}
         <div class="col-md-12">
-            <h2>
+            <div style="font-weight: bold; font-size: 30px;">
                 <a href="{{ path('blog_post', {'id': item.id}) }}">{{ item.titre }}</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <p>
@@ -13,9 +13,9 @@
                         <a class="glyphicon glyphicon-remove" style="font-size: medium; color: #880000" href="{{ path('blog_admin_del', {'id' : item.id})}}"></a>
                     </p>
                 {% endif %}
-            </h2>
+            </div>
             <p class="lead">
-                Par <a disabled>{{ item.author }}</a>
+                Par <a href="#">{{ item.author }}</a>
             </p>
             <p><span class="glyphicon glyphicon-time"></span> {{ item.published|date('Y-m-d \\à H:i:s') }}</p>
             <hr>
