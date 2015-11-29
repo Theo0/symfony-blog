@@ -24,4 +24,9 @@
             <hr>
         </div>
     {% endfor %}
+    <div class="row">
+        {% for i in 1..nbrPages %}
+            <a class="btn btn-default" href="{{ path('blog_index', {'page' : i}) }}">{{ i }}</a>
+        {% endfor %}
+    </div>
 {% endblock %}
