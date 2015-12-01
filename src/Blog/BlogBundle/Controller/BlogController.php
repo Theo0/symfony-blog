@@ -13,13 +13,19 @@ class BlogController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/", name="blog_index")
+     * @Route("/{page}", name="blog_index", requirements={"page" = "(\d+)"}, defaults={"page" = "1"})
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array(), array('published' => 'DESC'), 10);
-        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts));
+        $repository = $em->getRepository('BlogBlogBundle:Post');
+        $affichage = 5;
+        $pageService = $this->get('blog_blog.nbr_pages');
+        $nbrPosts = $repository->countPost();
+        $posts = $repository->findBy(array(), array('published' => 'DESC'), $affichage, ($page * $affichage) - $affichage);
+        $nbrPages = $pageService->count($nbrPosts, $affichage);
+
+        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts, 'nbrPages' => $nbrPages));
     }
 
     /**

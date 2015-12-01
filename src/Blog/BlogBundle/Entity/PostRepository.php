@@ -10,5 +10,12 @@ namespace Blog\BlogBundle\Entity;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function countPost()
+    {
+        $qb = $this->createQueryBuilder('a');
+        $query = $qb->select('COUNT(a.id)');
+        $count = $query->getQuery()->getSingleScalarResult();
 
+        return $count;
+    }
 }
