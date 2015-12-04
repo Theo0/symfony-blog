@@ -19,7 +19,7 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('BlogBlogBundle:Post');
-        $affichage = 5;
+        $affichage = 3;
         $pageService = $this->get('blog_blog.nbr_pages');
         $nbrPosts = $repository->countPost();
         $posts = $repository->findBy(array(), array('published' => 'DESC'), $affichage, ($page * $affichage) - $affichage);
