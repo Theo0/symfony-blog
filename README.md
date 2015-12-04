@@ -29,7 +29,7 @@ Nous n'avons pas jugé nécessaire d'inclure l'upload d'image.
 
 Pour les tests du blog :
 * Utilisateurs : admin/admin ou testuser/azerty
-* Un dump sql est disponile pour remplir la base avec des exemples
+* Un dump sql est disponible pour remplir la base avec des exemples
 
 
 
