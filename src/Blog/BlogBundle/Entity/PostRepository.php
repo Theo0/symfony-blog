@@ -18,4 +18,15 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
         return $count;
     }
+
+    public function countByCat(Cat $cat)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $query = $qb->select('COUNT(a.id)')
+            ->where('a.cat = :cat')
+            ->setParameter('cat', $cat);
+        $count = $query->getQuery()->getSingleScalarResult();
+
+        return $count;
+    }
 }

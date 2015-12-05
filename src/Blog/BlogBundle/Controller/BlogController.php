@@ -60,14 +60,19 @@ class BlogController extends Controller
     /**
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/cat/{id}", name="post_cat")
+     * @Route("/cat/{id}/{page}", name="post_cat", requirements={"page" = "(\d+)", "id" = "\d+"}, defaults={"page" = "1"})
      */
-    public function catAction($id)
+    public function catAction($id, $page)
     {
         $em = $this->getDoctrine()->getManager();
+        $affichage = 3;
+        $repository = $em->getRepository('BlogBlogBundle:Post');
         $myCat = $em->getRepository('BlogBlogBundle:Cat')->find($id);
-        $posts = $em->getRepository('BlogBlogBundle:Post')->findBy(array('cat' => $myCat), array('published' => 'DESC'));
-        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts));
+        $pageService = $this->get('blog_blog.nbr_pages');
+        $nbrPosts = $repository->countByCat($myCat);
+        $posts = $repository->findBy(array('cat' => $myCat), array('published' => 'DESC'), $affichage, ($page * $affichage) - $affichage);
+        $nbrPages = $pageService->count($nbrPosts, $affichage);
+        return $this->render('BlogBlogBundle:Default:index.html.twig', array('posts' => $posts, 'nbrPages' => $nbrPages));
     }
 
     /**
