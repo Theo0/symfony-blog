@@ -18,19 +18,16 @@ Le blog implémente FosUserBundle pour se connecter.
 
 Les fonctionnalités du blog: 
 * Connexion
-* Gestion d'un post (edition /modification / suppression) 
+* Gestion d'un post (création /modification / suppression) 
 * Ajout de catégorie
 * Ajout de commentaires sur les posts
 
 Nous nous sommes concentrés que sur la réalisation de ces fonctionnalités car pour nous elles sont les fonctionnalités de base que doivent avoir d'un blog. 
-Nous n'avons pas jugé nécessaire d'inclure l'upload d'image.
+
 
 ####Utilisation
 
 Pour les tests du blog :
-* Utilisateurs : admin/admin ou testuser/azerty
-* Un dump sql est disponible pour remplir la base avec des exemples
+* Utilisateurs : admin/admin (compte administrateur) ou testuser/azerty (compte classique)
+* Un dump sql est disponible pour remplir la base avec quelques exemples et mettre en evidence la pagination et les catégories
 
-
-
-A Symfony project created on November 5, 2015, 1:31 pm.
