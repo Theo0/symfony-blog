@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 04 Décembre 2015 à 18:07
+-- Généré le :  Dim 06 Décembre 2015 à 21:46
 -- Version du serveur :  5.6.24
 -- Version de PHP :  5.6.8
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `blog`
 --
+CREATE DATABASE IF NOT EXISTS `blog` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `blog`;
 
 -- --------------------------------------------------------
 
@@ -26,6 +28,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `cat`
 --
 
+DROP TABLE IF EXISTS `cat`;
 CREATE TABLE IF NOT EXISTS `cat` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -48,6 +51,7 @@ INSERT INTO `cat` (`id`, `nom`, `descr`) VALUES
 -- Structure de la table `comment`
 --
 
+DROP TABLE IF EXISTS `comment`;
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL,
   `author_id` int(11) DEFAULT NULL,
@@ -71,6 +75,7 @@ INSERT INTO `comment` (`id`, `author_id`, `post_id`, `content`, `published`) VAL
 -- Structure de la table `post`
 --
 
+DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL,
   `titre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -97,6 +102,7 @@ INSERT INTO `post` (`id`, `titre`, `slug`, `content`, `published`, `cat_id`, `au
 -- Structure de la table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
