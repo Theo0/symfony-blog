@@ -29,5 +29,7 @@ Nous nous sommes concentrés que sur la réalisation de ces fonctionnalités car
 
 Pour les tests du blog :
 * Utilisateurs : admin/admin (compte administrateur) ou testuser/azerty (compte classique)
-* Un dump sql est disponible pour remplir la base avec quelques exemples et mettre en evidence la pagination et les catégories
+* Deux "dump sql" sont disponibles pour remplir la base avec quelques exemples et mettre en evidence la pagination et les catégories :
+    * blog-full-structure.sql, permettant de créer la structure et de remplir les tables.
+    * blog-insert-only.sql, permet de remplir les tables précédemment créée avec la commande Doctrine.
 
